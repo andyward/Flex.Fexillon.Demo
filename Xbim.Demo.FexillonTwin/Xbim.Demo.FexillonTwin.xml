@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Xbim.Demo.FexillonTwin</name>
+    </assembly>
+    <members>
+        <member name="T:Xbim.Demo.FexillonTwin.Controllers.FlexController">
+            <summary>
+            Controller for accessing Flex services via the OpenAPI
+            </summary>
+            <remarks>This employs a 'master' admin account for the application. This gives 'root' access across the owned tenants (i.e. Fexillon)
+            To provide more fine grained permissions we'd use the IFlexClientsProvider instead, and integrate the SSO authentication feature.
+            Important: guard the ClientSecret appropriately to avoid security issues.
+            </remarks>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.#ctor(Microsoft.Extensions.Logging.ILogger{Xbim.Demo.FexillonTwin.Controllers.FlexController},Xbim.Flex.DI.Extensions.Services.IFlexAdminClientsProvider)">
+            <summary>
+            ctor
+            </summary>
+            <param name="logger"></param>
+            <param name="flexAdminClientsProvider"></param>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.GetTenants">
+            <summary>
+            Lists the tenants available to this application
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.GetAssets(System.String)">
+            <summary>
+            List all assets in this Tenant, and their models
+            </summary>
+            <param name="tenantId">The tenant</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.GetLevels(System.String)">
+            <summary>
+            Gets the levels in this tenant
+            </summary>
+            <param name="tenantId">The tenant</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.GetSpaces(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Get the spaces in this tenant
+            </summary>
+            <param name="tenantId">The tenant</param>
+            <param name="assetId">The optional assetId</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Controllers.FlexController.GetCompenentsInSpace(System.String,System.Int32,System.Int32)">
+            <summary>
+            Get the components within the volume of a space
+            </summary>
+            <remarks>This works across models in the same asset</remarks>
+            <param name="tenantId">The tenant</param>
+            <param name="assetModelId">The assetModel Id of the space</param>
+            <param name="entityId">The entity Id of the space</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xbim.Demo.FexillonTwin.Helpers.FlexServiceExtensions.AddFlexLogInServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds log-in services based on the configuration. It will either be
+            an interactive log-in service or non-interactive service using local directory or AD identity
+            </summary>
+            <param name="config">Configuration</param>
+            <param name="services">Services</param>
+        </member>
+    </members>
+</doc>

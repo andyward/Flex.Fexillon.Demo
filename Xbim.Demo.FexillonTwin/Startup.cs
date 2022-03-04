@@ -4,7 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
+using System.Text.Json.Serialization;
 using Xbim.Demo.FexillonTwin.Helpers;
 
 namespace Xbim.Demo.FexillonTwin
@@ -21,14 +24,22 @@ namespace Xbim.Demo.FexillonTwin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-           
-            services.AddControllers();
+            var filePath = System.IO.Path.Combine(AppContext.BaseDirectory, "Xbim.Demo.FexillonTwin.xml");
+            services.AddControllers()
+                .AddNewtonsoftJson(opt => 
+                {
+                    opt.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                }
+                );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Xbim.Demo.FexillonTwin", Version = "v1" });
+                c.IncludeXmlComments(filePath);
             });
 
+            // Provides the xbim Flex services (IFlexClientsProvider etc)
             services.AddFlexLogInServices(Configuration);
         }
 
@@ -48,6 +59,8 @@ namespace Xbim.Demo.FexillonTwin
 
             app.UseAuthorization();
             app.UseAuthentication();
+            
+            // Sets up xbim flex master authentication using Flex config in appSettings 
             app.UseXbimFlex();
             app.UseEndpoints(endpoints =>
             {

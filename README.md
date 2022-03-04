@@ -18,4 +18,4 @@ dotnet user-secrets set "Flex:ClientSecret" '<yoursecret>'
 ## A note on security
 
 This demo uses an Admin security approach, whereby the access token grants access to all data the application is allowed to see. In a real time application
-you'd normallly impersonate lower priviledged users using `IFlexClientsProvider` (rather than ``IFlexAdminClientsProvider`).
+you'd normallly impersonate lower priviledged users using `IFlexClientsProvider` (rather than `IFlexAdminClientsProvider`).
